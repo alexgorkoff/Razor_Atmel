@@ -150,6 +150,7 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
+  static u8 u8ColorIndex = 0;
   static u16 u16BlinkCount = 0;
   static u8 u8Counter = 0;
   
@@ -157,12 +158,69 @@ static void UserApp1SM_Idle(void)
   if(u16BlinkCount == 500)
   {
     u16BlinkCount = 0;
+    
+    /*Update the counter and roll at 16 */
     u8Counter++;
     if(u8Counter == 16)
     {
       u8Counter = 0;
+      
+      /* Manage the back light color */
+      u8ColorIndex++;
+      if(u8ColorIndex == 7)
+      {
+        u8ColorIndex = 0;
+      }
+      
+      /* Set the backlight color: white(all), purple(blue+red), blue,
+      cyan(blue+green), green, yellow(green+red), red */
+      switch(u8ColorIndex)
+      {
+      case 0: /* white */
+        LedOn(LCD_RED);
+        LedOn(LCD_BLUE);
+        LedOn(LCD_GREEN);
+        break;
+      case 1: /* purple */
+        LedOn(LCD_BLUE);
+        LedOn(LCD_RED);
+        LedOff(LCD_GREEN);
+        break;
+      case 2: /* blue */
+        LedOn(LCD_BLUE);
+        LedOff(LCD_RED);
+        LedOff(LCD_GREEN);
+        break;
+      case 3: /* cyan */
+        LedOn(LCD_BLUE);
+        LedOn(LCD_GREEN);
+        LedOff(LCD_RED);
+        break;
+      case 4: /* green */
+        LedOn(LCD_GREEN);
+        LedOff(LCD_BLUE);
+        LedOff(LCD_RED);
+        break;
+      case 5: /* yellow */
+        LedOn(LCD_GREEN);
+        LedOn(LCD_RED);
+        LedOff(LCD_BLUE);
+        break;
+      case 6: /* red */
+        LedOn(LCD_RED);
+        LedOff(LCD_BLUE);
+        LedOff(LCD_GREEN);
+        break;
+      default: /* off */
+        LedOff(LCD_BLUE);
+        LedOff(LCD_GREEN);
+        LedOff(LCD_RED);
+        break;
+       /* end switch */ 
+      }
     }
   } 
+  
   if(u8Counter & 0x01)
   {
     LedOn(RED);
