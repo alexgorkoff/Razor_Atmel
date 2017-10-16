@@ -87,7 +87,24 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
- 
+  
+  /* default setting of LED's */
+  LedOff(WHITE);
+  LedOff(PURPLE);
+  LedOff(BLUE);
+  LedOff(GREEN);
+  LedOn(CYAN);
+  LedOff(YELLOW);
+  LedOff(ORANGE);
+  LedOff(RED);
+  
+  /* Backlight to white) */
+  LedOn(LCD_RED);
+  LedOn(LCD_BLUE);
+  LedOn(LCD_GREEN);
+
+  
+  
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -136,6 +153,43 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
+  u32 u32Counter = 0;
+  LedRateType eCurrentRate = LED_PWM_5;
+  
+  u32Counter++;
+  
+  if(u32Counter == COUNTER_LIMIT_MS)
+  {
+    u32Counter = 0;
+
+      eCurrentRate++;
+      LedPWM(CYAN, eCurrentRate);
+  }
+  
+  /* static u16 u16BlinkCount = 0;
+
+  u16BlinkCount++;
+  if(u16BlinkCount == 100)
+  {
+    LedToggle(WHITE);
+    LedToggle(RED);
+  }
+   if(u16BlinkCount == 300)
+  {
+    LedToggle(ORANGE);
+    LedToggle(PURPLE);
+  }
+   if(u16BlinkCount == 500)
+  {
+    LedToggle(YELLOW);
+    LedToggle(BLUE);
+  }
+   if(u16BlinkCount == 700)
+  {
+    LedToggle(GREEN);
+    LedToggle(CYAN);
+  }
+  */
 
 } /* end UserApp1SM_Idle() */
     
