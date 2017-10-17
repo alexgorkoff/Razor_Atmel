@@ -154,36 +154,49 @@ State Machine Function Definitions
 static void UserApp1SM_Idle(void)
 {
   static u16 u16Counter = 0;
+  
   static LedRateType eCurrentRate = LED_PWM_0;
-  static bool bIncreasing = TRUE;
+  
+  static bool bLimit = FALSE;
   
   u16Counter++;
   if(u16Counter == COUNTER_LIMIT_MS)
   {
      u16Counter = 0;
-    
-     if(bIncreasing == TRUE)
+     
+     if(bLimit == FALSE)
      {
         eCurrentRate++;
      }
-     
-     if(eCurrentRate >= LED_PWM_100)
-     {
-          bIncreasing == FALSE;
-     }
-     
-     if(bIncreasing == FALSE)
+     if(bLimit == TRUE)
      {
        eCurrentRate--;
      }
      
+     LedPWM(RED, eCurrentRate);
+     LedPWM(BLUE, eCurrentRate);
+     LedPWM(YELLOW, eCurrentRate);
+     LedPWM(ORANGE, eCurrentRate);
+     LedPWM(CYAN, eCurrentRate);
+     LedPWM(WHITE, eCurrentRate);
+     LedPWM(PURPLE, eCurrentRate);
+     LedPWM(GREEN, eCurrentRate);
+  
+     if(eCurrentRate == LED_PWM_100)
+     {
+        bLimit = TRUE;
+     }
      if(eCurrentRate == LED_PWM_0)
      {
-         bIncreasing == TRUE;
+         bLimit = FALSE;
      }
      
-     LedPWM(CYAN, eCurrentRate);
+     
   }
+ 
+  
+  
+ 
 
   
   /* static u16 u16BlinkCount = 0;
