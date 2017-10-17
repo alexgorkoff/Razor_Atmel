@@ -87,7 +87,19 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
- 
+  LedOff(RED);
+  LedOff(ORANGE);
+  LedOff(YELLOW);
+  LedOff(GREEN);
+  LedOff(CYAN);
+  LedOff(BLUE);
+  LedOff(PURPLE);
+  LedOff(WHITE);
+  
+  /* LedPWM(LCD_RED, LED_PWM_50);
+  LedPWM(LCD_GREEN, LED_PWM_35);
+  LedPWM(LCD_BLUE, LED_PWM_80); */
+
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -136,7 +148,41 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-
+ /* static u16 u16Counter = 0;
+  
+  static LedRateType eCurrentRate = LED_PWM_0;
+  
+  static bool bLimit = FALSE;
+  
+  u16Counter++;
+  
+  if(u16Counter == COUNTER_LIMIT_MS)
+  {
+     u16Counter = 0;
+     
+     if(bLimit == FALSE)
+     {
+        eCurrentRate++;
+     }
+     if(bLimit == TRUE)
+     {
+       eCurrentRate--;
+     }
+     
+     LedPWM(RED, eCurrentRate);
+     LedPWM(YELLOW, eCurrentRate);
+     LedPWM(CYAN, eCurrentRate);
+     LedPWM(PURPLE, eCurrentRate);
+  
+     if(eCurrentRate == LED_PWM_100)
+     {
+        bLimit = TRUE;
+     }
+     if(eCurrentRate == LED_PWM_0)
+     {
+         bLimit = FALSE;
+     }
+  } */
 } /* end UserApp1SM_Idle() */
     
 
