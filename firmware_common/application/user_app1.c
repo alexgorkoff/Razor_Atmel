@@ -87,18 +87,18 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
-  LedOff(RED);
-  LedOff(ORANGE);
-  LedOff(YELLOW);
-  LedOff(GREEN);
-  LedOff(CYAN);
-  LedOff(BLUE);
-  LedOff(PURPLE);
-  LedOff(WHITE);
+  LedOn(RED);
+  LedOn(ORANGE);
+  LedOn(YELLOW);
+  LedOn(GREEN);
+  LedOn(CYAN);
+  LedOn(BLUE);
+  LedOn(PURPLE);
+  LedOn(WHITE);
   
-  /* LedPWM(LCD_RED, LED_PWM_50);
-  LedPWM(LCD_GREEN, LED_PWM_35);
-  LedPWM(LCD_BLUE, LED_PWM_80); */
+  LedOn(LCD_RED);
+  LedOn(LCD_BLUE);
+  LedOn(LCD_GREEN);
 
   /* If good initialization, set state to Idle */
   if( 1 )
@@ -148,41 +148,76 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
- /* static u16 u16Counter = 0;
   
-  static LedRateType eCurrentRate = LED_PWM_0;
+
+  static u16 u16ToggleCount = 0;
+  static u16 u16BlinkFactor = 1000;
+  static LedRateType eLEDRate = LED_PWM_5;
   
-  static bool bLimit = FALSE;
+  //u16Counter++;
   
-  u16Counter++;
-  
-  if(u16Counter == COUNTER_LIMIT_MS)
+  u16ToggleCount++;
+  if(u16ToggleCount == u16BlinkFactor)
   {
-     u16Counter = 0;
-     
-     if(bLimit == FALSE)
-     {
-        eCurrentRate++;
-     }
-     if(bLimit == TRUE)
-     {
-       eCurrentRate--;
-     }
-     
-     LedPWM(RED, eCurrentRate);
-     LedPWM(YELLOW, eCurrentRate);
-     LedPWM(CYAN, eCurrentRate);
-     LedPWM(PURPLE, eCurrentRate);
+    LedOff(ORANGE);
+    LedOff(GREEN);
+    LedOff(BLUE);
+    LedOff(WHITE);
+    
+    LedPWM(RED, eLEDRate);
+    LedPWM(YELLOW, eLEDRate);
+    LedPWM(CYAN, eLEDRate);
+    LedPWM(PURPLE, eLEDRate);
+    
+    LedOff(LCD_BLUE);
+    LedToggle(LCD_GREEN);
+    LedToggle(LCD_RED);
+   
+  }
   
-     if(eCurrentRate == LED_PWM_100)
-     {
-        bLimit = TRUE;
-     }
-     if(eCurrentRate == LED_PWM_0)
-     {
-         bLimit = FALSE;
-     }
-  } */
+  if(u16ToggleCount == (2*u16BlinkFactor))
+  {
+    u16ToggleCount = 0;
+    u16BlinkFactor-=50;
+    
+    LedOff(RED);
+    LedOff(YELLOW);
+    LedOff(CYAN);
+    LedOff(PURPLE);
+    
+    LedPWM(ORANGE, eLEDRate);
+    LedPWM(GREEN, eLEDRate);
+    LedPWM(BLUE, eLEDRate);
+    LedPWM(WHITE, eLEDRate);
+    
+    LedOff(LCD_RED);
+    LedToggle(LCD_BLUE);
+    LedToggle(LCD_GREEN);
+    
+    eLEDRate++;
+
+  }
+  
+  if(u16BlinkFactor == 0)
+  {
+    u16BlinkFactor = 1000;
+    eLEDRate = LED_PWM_5;
+    
+    LedBlink(RED, LED_2HZ);
+    LedBlink(ORANGE, LED_2HZ);
+    LedBlink(YELLOW, LED_2HZ);
+    LedBlink(GREEN, LED_2HZ);
+    LedBlink(CYAN, LED_2HZ);
+    LedBlink(BLUE, LED_2HZ);
+    LedBlink(PURPLE, LED_2HZ);
+    LedBlink(WHITE, LED_2HZ);
+    
+    LedOff(LCD_GREEN);
+    LedToggle(LCD_BLUE);
+    LedToggle(LCD_RED);
+  }
+
+  
 } /* end UserApp1SM_Idle() */
     
 
