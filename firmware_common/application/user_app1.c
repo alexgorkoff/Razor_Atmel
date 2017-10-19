@@ -97,7 +97,7 @@ void UserApp1Initialize(void)
   LedOn(WHITE);
   
   LedOn(LCD_RED);
-  LedOn(LCD_BLUE);
+  LedOff(LCD_BLUE);
   LedOn(LCD_GREEN);
 
   /* If good initialization, set state to Idle */
@@ -168,11 +168,7 @@ static void UserApp1SM_Idle(void)
     LedPWM(YELLOW, eLEDRate);
     LedPWM(CYAN, eLEDRate);
     LedPWM(PURPLE, eLEDRate);
-    
-    LedOff(LCD_BLUE);
-    LedToggle(LCD_GREEN);
-    LedToggle(LCD_RED);
-   
+
   }
   
   if(u16ToggleCount == (2*u16BlinkFactor))
@@ -189,10 +185,6 @@ static void UserApp1SM_Idle(void)
     LedPWM(GREEN, eLEDRate);
     LedPWM(BLUE, eLEDRate);
     LedPWM(WHITE, eLEDRate);
-    
-    LedOff(LCD_RED);
-    LedToggle(LCD_BLUE);
-    LedToggle(LCD_GREEN);
     
     eLEDRate++;
 
@@ -211,10 +203,7 @@ static void UserApp1SM_Idle(void)
     LedBlink(BLUE, LED_2HZ);
     LedBlink(PURPLE, LED_2HZ);
     LedBlink(WHITE, LED_2HZ);
-    
-    LedOff(LCD_GREEN);
-    LedToggle(LCD_BLUE);
-    LedToggle(LCD_RED);
+
   }
 
   
